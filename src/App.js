@@ -1,7 +1,7 @@
 import { Container, CssBaseline, Box } from '@mui/material';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Chat from './components/Chat';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Chat from './pages/Chat';
 import './App.scss';
 
 function App() {
