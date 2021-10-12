@@ -10,8 +10,7 @@ export const publicRoutes = () => (
 );
 export const privateRoutes = () => (
   <>
-    <Route path='/' exact component={Login} />
-    <Route path='/chat' component={Chat} />
-    <Redirect to='/' />
+    <Route path='/chat' exact component={Chat} />
+    <Redirect to='/chat' />
   </>
 );
