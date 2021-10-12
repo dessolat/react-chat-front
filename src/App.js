@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { Container, CssBaseline, Box } from '@mui/material';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Chat from './pages/Chat';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.scss';
+import { privateRoutes, publicRoutes } from './routes/routes';
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+
   return (
     <Container maxWidth='md'>
       <CssBaseline />
@@ -12,12 +14,9 @@ function App() {
         sx={{
           pt: 20,
           display: 'flex',
-					justifyContent: 'center'
+          justifyContent: 'center'
         }}>
-        <Router>
-          <Route path='/' exact component={Login} />
-          <Route path='/chat' component={Chat} />
-        </Router>
+        <Router>{isLogged ? privateRoutes() : publicRoutes()}</Router>
       </Box>
     </Container>
   );
