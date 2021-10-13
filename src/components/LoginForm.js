@@ -1,30 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, TextField, Button, InputAdornment, Typography } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import ForumIcon from '@mui/icons-material/Forum';
+import LoginIcon from '@mui/icons-material/Login';
+import useInput from '../hooks/useInput';
+import useLogging from '../hooks/useLogging';
 
 const LoginForm = () => {
-  const [userName, setUserName] = useState('');
-  const [channel, setChannel] = useState('');
+  const [userName, handleUserChange] = useInput();
+  const [channel, handleChannelChange] = useInput();
+  const login = useLogging();
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (userName && channel) {
+      localStorage.setItem('isLogged', true);
+      login(true);
+    }
   };
 
   return (
-    <Box component='form' onSubmit={handleSubmit} noValidate sx={{textAlign: 'center'}}>
-			<Typography variant='h5' component='h3'>
-				Login
-			</Typography>
+    <Box component='form' onSubmit={handleSubmit} noValidate sx={{ textAlign: 'center' }}>
+      <Typography variant='h5' component='h3'>
+        Login
+      </Typography>
       <TextField
-			margin='normal'
+        margin='normal'
         required
         fullWidth
         name='username'
         label='Name'
         autoFocus
         value={userName}
-        onChange={e => setUserName(e.target.value)}
+        onChange={handleUserChange}
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
@@ -33,7 +41,6 @@ const LoginForm = () => {
           )
         }}
       />
-
       <TextField
         margin='normal'
         padding='normal'
@@ -43,7 +50,7 @@ const LoginForm = () => {
         label='Channel'
         type='text'
         value={channel}
-        onChange={e => setChannel(e.target.value)}
+        onChange={handleChannelChange}
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
@@ -52,8 +59,14 @@ const LoginForm = () => {
           )
         }}
       />
-      <Button type='submit' onSubmit={handleSubmit}  variant='contained' sx={{ mt: 2 }}>
-        Join to chat
+      <Button
+        type='submit'
+        startIcon={<LoginIcon />}
+        disabled={!(userName && channel)}
+        onSubmit={handleSubmit}
+        variant='contained'
+        sx={{ mt: 2 }}>
+        Join
       </Button>
     </Box>
   );

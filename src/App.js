@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { Container, CssBaseline, Box } from '@mui/material';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './App.scss';
 import { privateRoutes, publicRoutes } from './routes/routes';
+import { useSelector } from 'react-redux';
+import useLogging from './hooks/useLogging';
+import './App.scss';
 
 function App() {
-  const [isLogged, setIsLogged] = useState(false);
+  const isLogged = useSelector(state => state.isLogged);
+	const login = useLogging()
+
+  useEffect(() => {
+		const logged = localStorage.getItem('isLogged');
+		logged === 'true' && login(true)
+		// eslint-disable-next-line
+	}, []);
 
   return (
     <Container maxWidth='md'>
