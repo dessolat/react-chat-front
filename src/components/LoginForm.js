@@ -7,16 +7,13 @@ import useInput from '../hooks/useInput';
 import useLogging from '../hooks/useLogging';
 
 const LoginForm = () => {
-  const [userName, handleUserChange] = useInput();
+  const [name, handleNameChange] = useInput();
   const [channel, handleChannelChange] = useInput();
   const login = useLogging();
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (userName) {
-      localStorage.setItem('isLogged', true);
-      login(true);
-    }
+    name && login(true, name);
   };
 
   return (
@@ -28,11 +25,11 @@ const LoginForm = () => {
         margin='normal'
         required
         fullWidth
-        name='username'
+        name='name'
         label='Name'
         autoFocus
-        value={userName}
-        onChange={handleUserChange}
+        value={name}
+        onChange={handleNameChange}
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
@@ -46,7 +43,7 @@ const LoginForm = () => {
         padding='normal'
         required
         fullWidth
-				disabled
+        disabled
         name='channel'
         label='Channel'
         type='text'
@@ -63,7 +60,7 @@ const LoginForm = () => {
       <Button
         type='submit'
         startIcon={<LoginIcon />}
-        disabled={!(userName)}
+        disabled={!name}
         onSubmit={handleSubmit}
         variant='contained'
         sx={{ mt: 2 }}>
