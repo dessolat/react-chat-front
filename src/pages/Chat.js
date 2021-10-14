@@ -5,6 +5,7 @@ import { Paper, Box, TextField, Stack, Button, Typography } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send';
 import { setName } from '../redux/actionCreators';
 import useInput from '../hooks/useInput';
+import useLogging from '../hooks/useLogging';
 
 const Chat = () => {
   const [socket, setSocket] = useState(null);
@@ -13,20 +14,21 @@ const Chat = () => {
   const name = useSelector(state => state.name);
   const channel = useSelector(state => state.channel);
   const [messages, setMessages] = useState([]);
+  const login = useLogging();
   const messagesEndRef = useRef();
 
   useEffect(() => {
-    setSocket(io('http://localhost:5000'));
+    setSocket(io('http://192.168.1.4:5000'));
 
     if (!name) {
       const savedName = localStorage.getItem('name');
-      dispatch(setName(savedName));
+      savedName ? dispatch(setName(savedName)) : login(false);
     }
 
     return () => {
-      socket.disconnect();
+      socket && socket.disconnect();
     };
-		// eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const Chat = () => {
     socket.on('receive-message', (name, message) => {
       setMessages(prev => [...prev, { name, message }]);
     });
-		// eslint-disable-next-line
+    // eslint-disable-next-line
   }, [socket]);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const Chat = () => {
   const handleSubmit = e => {
     e.preventDefault();
     socket.emit('send-message', { name, channel }, input);
-		setInput('')
+    setInput('');
   };
 
   return (
@@ -73,8 +75,9 @@ const Chat = () => {
         <Box flexGrow={1} sx={{ padding: 2, overflowY: 'auto' }}>
           {messages.map((message, i) => (
             <Stack key={i} direction='row' justifyContent='flex-end' mt={1}>
-              <Stack sx={{ bgcolor: 'primary.main', color: 'white',  padding: 1, borderRadius: 5}}>
-                <Typography sx={{fontSize: '1rem'}}>{`${message.name}: ${message.message}`}</Typography>
+              <Stack sx={{ bgcolor: 'primary.main', color: 'white', padding: 1, borderRadius: 5 }}>
+                <Typography
+                  sx={{ fontSize: '1rem' }}>{`${message.name}: ${message.message}`}</Typography>
               </Stack>
             </Stack>
           ))}
