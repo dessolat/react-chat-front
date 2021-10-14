@@ -1,10 +1,16 @@
 import React from 'react';
-import { Paper } from '@mui/material';
+import { Paper, Box } from '@mui/material';
 import LoginForm from '../components/LoginForm';
 
 const Login = () => {
   return (
-    <Paper
+    <Box
+        sx={{
+          pt: 20,
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+		<Paper
       elevation={3}
       sx={{
         maxWidth: 250,
@@ -13,6 +19,7 @@ const Login = () => {
       }}>
       <LoginForm />
     </Paper>
+		</Box>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Container, CssBaseline, Box } from '@mui/material';
+import { Container, CssBaseline } from '@mui/material';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from './routes/routes';
 import { useSelector } from 'react-redux';
@@ -8,25 +8,18 @@ import './App.scss';
 
 function App() {
   const isLogged = useSelector(state => state.isLogged);
-	const login = useLogging()
+  const login = useLogging();
 
   useEffect(() => {
-		const logged = localStorage.getItem('isLogged');
-		logged === 'true' && login(true)
-		// eslint-disable-next-line
-	}, []);
+    const logged = localStorage.getItem('isLogged');
+    logged === 'true' && login(true);
+    // eslint-disable-next-line
+  }, []);
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='sm'>
       <CssBaseline />
-      <Box
-        sx={{
-          pt: 20,
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
-        <Router>{isLogged ? privateRoutes() : publicRoutes()}</Router>
-      </Box>
+      <Router>{isLogged ? privateRoutes() : publicRoutes()}</Router>
     </Container>
   );
 }

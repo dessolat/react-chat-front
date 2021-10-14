@@ -13,7 +13,7 @@ const LoginForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (userName && channel) {
+    if (userName) {
       localStorage.setItem('isLogged', true);
       login(true);
     }
@@ -46,6 +46,7 @@ const LoginForm = () => {
         padding='normal'
         required
         fullWidth
+				disabled
         name='channel'
         label='Channel'
         type='text'
@@ -62,7 +63,7 @@ const LoginForm = () => {
       <Button
         type='submit'
         startIcon={<LoginIcon />}
-        disabled={!(userName && channel)}
+        disabled={!(userName)}
         onSubmit={handleSubmit}
         variant='contained'
         sx={{ mt: 2 }}>
