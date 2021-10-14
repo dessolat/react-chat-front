@@ -1,3 +1,12 @@
+html {
+	font-size: 16px;
+
+	@media screen and (max-width: 450px) {
+		font-size: 14px;
+	}
+}
+
+
 body {
   height: 100vh;
   background: url(./images/body-background.jpg) center/cover;

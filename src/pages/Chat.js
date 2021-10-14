@@ -26,6 +26,7 @@ const Chat = () => {
     return () => {
       socket.disconnect();
     };
+		// eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const Chat = () => {
     socket.on('receive-message', (name, message) => {
       setMessages(prev => [...prev, { name, message }]);
     });
+		// eslint-disable-next-line
   }, [socket]);
 
   useEffect(() => {
@@ -60,7 +62,7 @@ const Chat = () => {
         elevation={3}
         sx={{
           height: '80vh',
-          padding: 2,
+          padding: '20px 10px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -68,11 +70,11 @@ const Chat = () => {
           '& .MuiOutlinedInput-root, .MuiButton-root': { borderRadius: 5 },
           '& .MuiButton-endIcon': { marginLeft: 0 }
         }}>
-        <Box flexGrow={1} sx={{ overflowY: 'auto' }}>
-          {messages.map(message => (
-            <Stack direction='row' justifyContent='flex-end' mt={1}>
-              <Stack sx={{ backgroundColor: 'primary' }}>
-                <Typography>{`${message.name}: ${message.message}`}</Typography>
+        <Box flexGrow={1} sx={{ padding: 2, overflowY: 'auto' }}>
+          {messages.map((message, i) => (
+            <Stack key={i} direction='row' justifyContent='flex-end' mt={1}>
+              <Stack sx={{ bgcolor: 'primary.main', color: 'white',  padding: 1, borderRadius: 5}}>
+                <Typography sx={{fontSize: '1rem'}}>{`${message.name}: ${message.message}`}</Typography>
               </Stack>
             </Stack>
           ))}
