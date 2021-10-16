@@ -1,6 +1,6 @@
 import { Route, Redirect } from 'react-router-dom';
-import Login from '../pages/Login';
-import Chat from '../pages/Chat';
+import Login from '../components/Login/Login';
+import Chat from '../components/Chat/Chat';
 
 export const publicRoutes = () => (
   <>

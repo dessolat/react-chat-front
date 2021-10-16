@@ -3,8 +3,8 @@ import { Box, TextField, Button, InputAdornment, Typography } from '@mui/materia
 import { AccountCircle } from '@mui/icons-material';
 import ForumIcon from '@mui/icons-material/Forum';
 import LoginIcon from '@mui/icons-material/Login';
-import useInput from '../hooks/useInput';
-import useLogging from '../hooks/useLogging';
+import useInput from '../../hooks/useInput';
+import useLogging from '../../hooks/useLogging';
 
 const LoginForm = () => {
   const [name, handleNameChange] = useInput();
