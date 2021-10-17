@@ -12,6 +12,7 @@ const ConnectionNotifier = ({ connected, snackbar, setSnackbar }) => {
       open={snackbar}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       onClose={() => setSnackbar(false)}
+			autoHideDuration={2000}
       TransitionComponent={SlideTransition}>
       <Alert
         onClose={() => setSnackbar(false)}

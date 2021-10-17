@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
-import { Paper, Box } from '@mui/material';
+import { Paper, Box, Stack, List, ListItem, ListItemText } from '@mui/material';
 import { setName } from '../../redux/actionCreators';
 import useLogging from '../../hooks/useLogging';
-import ChatBody from './ChatBody';
-import ChatFooter from './ChatFooter';
+
 import ConnectionNotifier from './ConnectionNotifier';
+import ChatContent from './ChatContent';
+import ChatHeader from './ChatHeader';
 
 const Chat = () => {
   const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
+  const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
   const name = useSelector(state => state.name);
@@ -36,10 +38,20 @@ const Chat = () => {
   useEffect(() => {
     if (socket === null) return;
 
+    const removeUser = username => {
+      setUsers(prev => prev.filter(user => user.name !== username));
+    };
+
+    const addUser = user => {
+      setUsers(prev => [...prev, user]);
+    };
+
     socket.on('connect', () => {
       setConnected(true);
       setSnackbar(true);
-      socket.emit('join', { name, channel });
+      socket.emit('join', { name, channel }, userList => {
+        setUsers(userList);
+      });
     });
 
     socket.on('disconnect', () => {
@@ -50,6 +62,10 @@ const Chat = () => {
     socket.on('receive-message', (name, message) => {
       setMessages(prev => [...prev, { name, message }]);
     });
+
+    socket.on('user-left', name => removeUser(name));
+    socket.on('user-join', user => addUser(user));
+
     // eslint-disable-next-line
   }, [socket]);
 
@@ -68,16 +84,34 @@ const Chat = () => {
           elevation={3}
           sx={{
             height: '80vh',
-            padding: '20px 10px 10px 10px',
             display: 'flex',
-            flexDirection: 'column',
+            overflow: 'hidden',
             justifyContent: 'space-between',
+            paddingBottom: 1,
             borderRadius: 3,
             '& .MuiOutlinedInput-root, .MuiButton-root': { borderRadius: 5 },
             '& .MuiButton-endIcon': { marginLeft: 0 }
           }}>
-          <ChatBody messages={messages} messagesEndRef={messagesEndRef} />
-          <ChatFooter socket={socket} connected={connected} />
+          <Stack component='aside' >
+            <ChatHeader />
+            <List
+              sx={{
+                paddingTop: 0,
+                '& .MuiListItem-root + .MuiListItem-root': { borderTop: '1px solid #f2f2f2' }
+              }}>
+              {users.map((user, i) => (
+                <ListItem key={i} sx={{ padding: 0.5, paddingLeft: 2 }}>
+                  <ListItemText primary={user.name} />
+                </ListItem>
+              ))}
+            </List>
+          </Stack>
+          <ChatContent
+            messages={messages}
+            messagesEndRef={messagesEndRef}
+            socket={socket}
+            connected={connected}
+          />
         </Paper>
       </Box>
       <ConnectionNotifier connected={connected} snackbar={snackbar} setSnackbar={setSnackbar} />

@@ -1,13 +1,21 @@
 html {
-	font-size: 16px;
+  font-size: 16px;
 
-	@media screen and (max-width: 450px) {
-		font-size: 14px;
-	}
+  @media screen and (max-width: 450px) {
+    font-size: 13px;
+  }
 }
-
 
 body {
   height: 100vh;
   background: url(./images/body-background.jpg) center/cover;
+}
+
+aside {
+  flex: 0 0 200px;
+  border-right: 1px solid #d9d9d9;
+
+  @media screen and (max-width: 450px) {
+		flex: 0 0 110px;
+  }
 }

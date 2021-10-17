@@ -4,19 +4,19 @@ import SendIcon from '@mui/icons-material/Send';
 import useInput from '../../hooks/useInput';
 import { useSelector } from 'react-redux';
 
-const ChatFooter = ({socket, connected}) => {
-	const [input, setInput] = useInput();
-	const name = useSelector(state => state.name)
-	const channel = useSelector(state => state.channel)
+const ChatFooter = ({ socket, connected }) => {
+  const [input, setInput] = useInput();
+  const name = useSelector(state => state.name);
+  const channel = useSelector(state => state.channel);
 
-	const handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     socket.emit('send-message', { name, channel }, input);
     setInput('');
   };
 
   return (
-    <Stack pt={2} direction='row' spacing={1} component='form' onSubmit={handleSubmit}>
+    <Stack p={1} pb={0} direction='row' spacing={1} component='form' onSubmit={handleSubmit}>
       <TextField
         value={input}
         onChange={setInput}

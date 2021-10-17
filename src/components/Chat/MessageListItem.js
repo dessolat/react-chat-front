@@ -35,7 +35,8 @@ const MessageListItem = ({ message }) => (
           '& .MuiChip-label': { padding: '0 5px' }
         }}
       />
-      <Typography mt={0.7} p={0.3} fontSize='.8rem' sx={{ lineHeight: 0.6 }}>
+			
+      <Typography fontSize='.8rem' sx={{ lineHeight: 1.1, padding: '4px 1px 0 2px' }}>
         {message.message}
       </Typography>
     </Stack>
