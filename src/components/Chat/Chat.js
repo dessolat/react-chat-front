@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
-import { Paper, Box, Stack, List, ListItem, ListItemText } from '@mui/material';
+import { Paper, Box } from '@mui/material';
 import { setName } from '../../redux/actionCreators';
 import useLogging from '../../hooks/useLogging';
-
 import ConnectionNotifier from './ConnectionNotifier';
 import ChatContent from './ChatContent';
-import ChatHeader from './ChatHeader';
+import ChatAside from './ChatAside';
 
 const Chat = () => {
   const [socket, setSocket] = useState(null);
@@ -92,20 +91,7 @@ const Chat = () => {
             '& .MuiOutlinedInput-root, .MuiButton-root': { borderRadius: 5 },
             '& .MuiButton-endIcon': { marginLeft: 0 }
           }}>
-          <Stack component='aside' >
-            <ChatHeader />
-            <List
-              sx={{
-                paddingTop: 0,
-                '& .MuiListItem-root + .MuiListItem-root': { borderTop: '1px solid #f2f2f2' }
-              }}>
-              {users.map((user, i) => (
-                <ListItem key={i} sx={{ padding: 0.5, paddingLeft: 2 }}>
-                  <ListItemText primary={user.name} />
-                </ListItem>
-              ))}
-            </List>
-          </Stack>
+          <ChatAside users={users} />
           <ChatContent
             messages={messages}
             messagesEndRef={messagesEndRef}
